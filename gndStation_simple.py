@@ -1,6 +1,6 @@
 import serial
 
-ser = serial.Serial('COM10', 9600)  # open serial port
+ser = serial.Serial('COM3', 9600)  # open serial port
 dataArray = []
 timeArray = []
 
@@ -13,7 +13,7 @@ try:
                 line = ser.readline().decode()  # read in whats on the serial port and decode it from byte to string
                 line = line.strip().split(",") # strip off trailing \r\n and split by commas
                 if(line[0] == "d"):  # if we got senor data, append to appropriate arrays
-                    #print(line)
+                    print(line)
                     dataArray.append(line[1])
                     timeArray.append(line[2])
                 else:

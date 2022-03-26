@@ -26,10 +26,10 @@ void setup() {
 void loop() {
 
   //check the state of the switchPin
-  int buttonState = digitalRead(switchPin);
+  //int buttonState = digitalRead(switchPin);
 
   //if the button is 0, connected to gnd
-  if(!buttonState){ 
+  //if(!buttonState){ 
 
     //make sure to grab data from the sensor until it has data
     int gotValue = 0;
@@ -43,7 +43,7 @@ void loop() {
       }else{
         Serial.println("Couldn't get data");
       }
-    }
+    //}
 
     //appropriate wait time is around 13 ms, but it takes time to check button and write to serial so we can wait less than 13
     delay(12); 
