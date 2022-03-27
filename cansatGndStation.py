@@ -108,7 +108,7 @@ class xbeeDataThread(QThread):
             for x in range(len(self.line)):
                 print(self.line[x])
 
-                if(len(self.line[x].split(',')) > 2):
+                if(len(self.line[x].split(',')) > 2): 
                     if(self.line[x].split(',')[1] == "d"):
                         
                         serialLineArray = serialLine.split()
