@@ -3,7 +3,6 @@
 //tyler phone - 220 g
 //caliper + box - 406 g
 
-
 #include "HX711.h"
 
 // HX711 circuit wiring

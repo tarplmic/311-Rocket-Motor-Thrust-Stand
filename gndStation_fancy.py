@@ -44,7 +44,7 @@ class arduinoDataThread(QThread):
 
         self.packetCount = 0
         self.arduino = QtSerialPort.QSerialPort()
-        self.arduino.setPortName('COM4')
+        self.arduino.setPortName('COM5')
         self.arduino.setBaudRate(9600)
         self.line = ",,,,,,"
 
@@ -219,19 +219,14 @@ class Display(QWidget):
         
         commandBoxes = QWidget()
         commandBoxesLayout = QHBoxLayout()
-        commandBox = QComboBox(self)
-        commandBox.setFixedSize(150, 50)
-        commandBox.setStyleSheet('background-color:black; color:white; border:3px solid; border-color:grey')
-        #commandBox.addItems(["CX_ON", "CX_PING", "SP1_ON", "SP2_ON", "SIM_ENABLE", "SIM_ACTIVATE", "MANUAL_RELEASE"])
-        commandBox.addItems(["GETDATA", "STOPDATA"])
-        commandBox.setEditable(True)
-        line_edit = commandBox.lineEdit()
-        line_edit.setAlignment(Qt.AlignCenter)
-        line_edit.setReadOnly(True) 
-        commandBoxesLayout.addWidget(commandBox)
-        sendButt = QPushButton('Send Command')
+        sendButt1 = QPushButton('GET DATA')
+        sendButt1.setFixedSize(100,80)
+        sendButt1.clicked.connect(self.sendCommandGD)
+        sendButt1.setStyleSheet('background-color:black; color:white; border:3px solid; border-color:grey') 
+        commandBoxesLayout.addWidget(sendButt1)
+        sendButt = QPushButton('STOP DATA')
         sendButt.setFixedSize(100,80)
-        sendButt.clicked.connect(self.sendCommand)
+        sendButt.clicked.connect(self.sendCommandSD)
         sendButt.setStyleSheet('background-color:black; color:white; border:3px solid; border-color:grey') 
         commandBoxesLayout.addWidget(sendButt)
         commandBoxes.setLayout(commandBoxesLayout)
@@ -255,29 +250,30 @@ class Display(QWidget):
         impulseBoxLayout.addWidget(impulseText)
         self.impulseBox.setLayout(impulseBoxLayout)
     
-    def sendCommand(self):
+    def sendCommandGD(self):
         global impulseXArray
         global impulseYArray
 
-        #print(self.commandWid.children()[0].itemAt(1).widget().children()[1].currentText()) #path to the command selected
-        if(self.commandWid.children()[0].itemAt(1).widget().children()[1].currentText() == "GETDATA"):
-            print('About to send GETDATA')
+        print('About to send GETDATA')
 
-            dat = "<CMD,GETDATA>"
-            self.dataCollectionThread.arduino.write(dat.encode())
-            impulseXArray = [0]
-            impulseYArray = [0]
+        dat = "<CMD,GETDATA>"
+        self.dataCollectionThread.arduino.write(dat.encode())
+        impulseXArray = [0]
+        impulseYArray = [0]
 
-        elif(self.commandWid.children()[0].itemAt(1).widget().children()[1].currentText() == "STOPDATA"):
-            print('About to send STOPDATA')
+    def sendCommandSD(self):
+        global impulseXArray
+        global impulseYArray
 
-            dat = "<CMD,STOPDATA>"
-            self.dataCollectionThread.arduino.write(dat.encode())
+        print('About to send STOPDATA')
 
-            self.updateImpulse(impulseXArray, impulseYArray)
+        dat = "<CMD,STOPDATA>"
+        self.dataCollectionThread.arduino.write(dat.encode())
 
-            #impulseXArray = [0]
-            #impulseYArray = [0]
+        self.updateImpulse(impulseXArray, impulseYArray)
+
+        #impulseXArray = [0]
+        #impulseYArray = [0]
     
     def updateImpulse(self, xArray, yArray):
         global currentImpulse
