@@ -6,8 +6,8 @@ const int LOADCELL_SCK_PIN = 2;
 const int switchPin = 7;
 
 // define calibration constants
-const float slopeValue = -0.0045769; //5kg load cell, upside down
-const float offsetValue = -592; //5kg load cell, upside down
+const float slopeValue = 0.0045939; //5kg load cell, upside down
+const float offsetValue = 402; //5kg load cell, upside down
 
 //10kg load cell, arrow pointed down
 /*Slope

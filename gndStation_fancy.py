@@ -34,7 +34,10 @@ impulseXArray = []
 global impulseYArray
 impulseYArray = []
 
-with open('ThrustData.csv','a',newline='') as fd:
+global dataFile
+dataFile = "ThrustData_C65_Test3.csv"
+
+with open(dataFile,'a',newline='') as fd:
     csvData = csv.writer(fd, delimiter=",")
     csvData.writerow(['STARTING NEW RUN'])
 
@@ -44,7 +47,7 @@ class arduinoDataThread(QThread):
 
         self.packetCount = 0
         self.arduino = QtSerialPort.QSerialPort()
-        self.arduino.setPortName('COM5')
+        self.arduino.setPortName('COM4')
         self.arduino.setBaudRate(9600)
         self.line = ",,,,,,"
 
@@ -108,7 +111,7 @@ class arduinoDataThread(QThread):
             print(len(forceArray))
             print("BAD SP1 DATA")
         
-        with open('ThrustData.csv','a',newline='') as fd:
+        with open(dataFile,'a',newline='') as fd:
             csvData = csv.writer(fd, delimiter=",")
             csvData.writerow(line)
 
@@ -183,7 +186,7 @@ class Display(QWidget):
     def createForceGraph(self):
         self.forceGraph = pg.PlotWidget()
         self.forceGraph.clear()
-        self.forceGraph.setRange(yRange=[-1000, 1000])
+        self.forceGraph.setRange(yRange=[-1650, 1650])
         self.forceGraph.setTitle('Force Real Time', **{'color': '#000', 'size': '14pt'})
         self.forceGraph.setLabels(left='Force [g]', bottom='Time [ms]')
         pen = pg.mkPen(color=forceColor)
@@ -196,7 +199,7 @@ class Display(QWidget):
     def createImpulseGraph(self):
         self.impulseGraph = pg.PlotWidget()
         self.impulseGraph.clear()
-        self.impulseGraph.setRange(yRange=[-1000, 1000])
+        self.impulseGraph.setRange(yRange=[-0, 1650])
         self.impulseGraph.setTitle('Force Total', **{'color': '#000', 'size': '14pt'})
         self.impulseGraph.setLabels(left='Force [g]', bottom='Time [ms]')
         pen = pg.mkPen(color=forceColor)
