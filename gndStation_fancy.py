@@ -35,7 +35,7 @@ global impulseYArray
 impulseYArray = []
 
 global dataFile
-dataFile = "Calibration_WG25_907_185_5kg.csv"
+dataFile = "ThrustTest_A83_4_3_2022.csv"
 
 with open(dataFile,'a',newline='') as fd:
     csvData = csv.writer(fd, delimiter=",")
