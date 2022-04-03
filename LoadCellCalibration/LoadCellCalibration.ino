@@ -12,8 +12,8 @@ long calArray[100];
 long totalCal = 0;
 long offsetValue;
 const int calDataPoints = 200;
-long weightInputs[4];
-long associatedReadings[4];
+float weightInputs[6];
+long associatedReadings[6];
 long singleReadingSum = 0;
 float slopeValue;
 
@@ -21,6 +21,7 @@ HX711 scale;
 
 void setup() {
   Serial.begin(9600);
+  Serial.setTimeout(50000000);
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
 
   delay(500);
@@ -53,11 +54,11 @@ void setup() {
   Serial.println(offsetValue);
 
 
-  for(int i=0; i <= 3; i++){
+  for(int i=0; i <= 5; i++){
     Serial.println("Write Weight [g]: ");
     while(Serial.available() == 0){}
-    weightInputs[i] = (long int)Serial.readStringUntil('\n').toInt();
-    Serial.println(weightInputs[i]);
+    weightInputs[i] = Serial.parseFloat();
+    Serial.println(weightInputs[i], 4);
 
   for(int i = 0; i < 10; i++){
     
@@ -83,7 +84,7 @@ void setup() {
   }
 
   Serial.println("Weights and Readings");
-  for(int i = 0; i<=3; i++){
+  for(int i = 0; i<=5; i++){
     Serial.print(weightInputs[i]);
     Serial.print(" ");
     Serial.println(associatedReadings[i]);
@@ -92,12 +93,16 @@ void setup() {
   float slope1 = (float)(weightInputs[1] - weightInputs[0]) / (float)(associatedReadings[1] - associatedReadings[0]);
   float slope2 = (float)(weightInputs[2] - weightInputs[1]) / (float)(associatedReadings[2] - associatedReadings[1]);
   float slope3 = (float)(weightInputs[3] - weightInputs[2]) / (float)(associatedReadings[3] - associatedReadings[2]);
+  float slope4 = (float)(weightInputs[4] - weightInputs[3]) / (float)(associatedReadings[4] - associatedReadings[3]);
+  float slope5 = (float)(weightInputs[5] - weightInputs[4]) / (float)(associatedReadings[5] - associatedReadings[4]);
 
   Serial.println(slope1, 7);
   Serial.println(slope2, 7);
   Serial.println(slope3, 7);
+  Serial.println(slope4, 7);
+  Serial.println(slope5, 7);
 
-  slopeValue  = (slope1 + slope2 + slope3) / 3;
+  slopeValue  = (slope1 + slope2 + slope3 + slope4 + slope5) / 5;
   offsetValue = -1 * (offsetValue * slopeValue);
 
   Serial.println("Slope");

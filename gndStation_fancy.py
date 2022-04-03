@@ -35,7 +35,7 @@ global impulseYArray
 impulseYArray = []
 
 global dataFile
-dataFile = "ThrustData_C65_Test3.csv"
+dataFile = "Calibration_WG25_907_185_5kg.csv"
 
 with open(dataFile,'a',newline='') as fd:
     csvData = csv.writer(fd, delimiter=",")
@@ -47,7 +47,7 @@ class arduinoDataThread(QThread):
 
         self.packetCount = 0
         self.arduino = QtSerialPort.QSerialPort()
-        self.arduino.setPortName('COM4')
+        self.arduino.setPortName('COM5')
         self.arduino.setBaudRate(9600)
         self.line = ",,,,,,"
 
