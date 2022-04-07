@@ -109,7 +109,6 @@ class arduinoDataThread(QThread):
             forceArray.pop(len(forceArray) - 1)
             print(len(xArray))
             print(len(forceArray))
-            print("BAD SP1 DATA")
         
         with open(dataFile,'a',newline='') as fd:
             csvData = csv.writer(fd, delimiter=",")
